@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "213359710939",
+    "project_id": "simple-expense-application",
+    "storage_bucket": "simple-expense-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213359710939:android:9884869d33a5af321872fe",
+        "android_client_info": {
+          "package_name": "com.example.simpleexpenseapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213359710939-m9ipehsb7himb3g8td3ggptso8nag279.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAafjGt9Wg9RTeOGULBkz0psIabjTIXmyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213359710939-m9ipehsb7himb3g8td3ggptso8nag279.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
