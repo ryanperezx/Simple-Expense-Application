@@ -1,3 +1,1 @@
-# simpleexpenseapplication
-
-A new Flutter application.
+# Simple Expense Application
