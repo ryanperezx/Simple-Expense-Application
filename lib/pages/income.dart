@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simpleexpenseapplication/appdrawer.dart';
 
-class Income extends StatefulWidget{
+class Income extends StatefulWidget {
   static const String routeName = 'pages/ income';
+
   Income({Key key}) : super(key: key);
 
   @override
@@ -61,68 +62,75 @@ class _Income extends State<Income> {
         iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Container(
+          height: 700,
           padding: const EdgeInsets.all(20),
           //padding for all widget
-          child: Stack(children: [table, new Positioned(
-              bottom: 0,
-              right: 0,
-              child: new Container(
-                  width: 60.0,
-                  height: 60.0,
-                  child: new OutlinedButton(
-                    child: Text("+",
-                        style: new TextStyle(
-                            color: Colors.black45, fontSize: 55)),
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.black,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(40.0)),
-                      padding: EdgeInsets.zero,
+          child: Stack(children: [
+            table,
+          ])),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.plus_one),
+        backgroundColor: Colors.black,
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return Theme(
+                data: ThemeData(
+                  primaryColor: Colors.black,
+                  primaryColorDark: Colors.white,
+                ),
+                child: new Dialog(
+                    child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new Column(children: <Widget>[
+                    Row(
+                      children: [
+                        Flexible(
+                            child: TextFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Date',
+                          ),
+                          controller: _userTextController,
+                        )),
+                        Flexible(
+                            child: TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black,
+                          ),
+                          child: Icon(
+                            Icons.calendar_today,
+                          ),
+                          onPressed: () => _selectDate(context),
+                        )),
+                      ],
                     ),
-                    onPressed: () {
-                      showDialog(
-                          child: new Dialog(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: new Column(children: <Widget>[
-                                  Row(
-                                    children: [
-                                      Flexible(child: TextFormField(
-                                        decoration: const InputDecoration(
-                                          labelText: 'Date',
-                                        ),
-                                        controller: _userTextController,
-
-                                      )),
-                                      Flexible(child: TextButton(
-                                        child: Icon(Icons.calendar_today,),
-                                        onPressed: () => _selectDate(context),
-                                      )),
-                                    ],
-                                  ),
-                                  TextFormField(
-                                    decoration: const InputDecoration(
-                                      labelText: 'Type',
-                                    ),
-                                  ),
-                                  TextFormField(
-                                    decoration: const InputDecoration(
-                                      labelText: 'Item',
-                                    ),
-                                  ),
-                                  TextFormField(
-                                    decoration: const InputDecoration(
-                                      labelText: 'Value',
-                                    ),
-                                  ),
-                                ]),
-                              )),
-                          context: context);
-                    },
-                  )))])),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Type',
+                      ),
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Item',
+                      ),
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Value',
+                      ),
+                    ),
+                  ]),
+                )),
+              );
+            },
+          );
+        },
+      ),
       drawer: AppDrawer(),
     );
   }
+
   @override
   void initState() {
     super.initState();

@@ -44,6 +44,20 @@ class Login extends StatefulWidget {
 }
 
 class _Login extends State<Login> {
+  final username = TextEditingController();
+  final password = TextEditingController();
+
+  bool _validateUser = false;
+  bool _validatePass = false;
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    username.dispose();
+    password.dispose();
+    super.dispose();
+  }
+
   Widget signUp = Container(
       padding: const EdgeInsets.only(top: 20),
       alignment: Alignment.topRight,
@@ -79,79 +93,6 @@ class _Login extends State<Login> {
       ],
     ),
   );
-  Widget textBoxes = Container(
-      padding: const EdgeInsets.fromLTRB(25, 20, 25, 0),
-      child: Column(children: [
-        new TextFormField(
-          decoration: new InputDecoration(
-            prefixIcon: new Icon(Icons.account_circle),
-            contentPadding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            //inside padding
-            labelText: "Enter Username",
-            fillColor: Colors.white,
-            border: new OutlineInputBorder(
-              borderRadius: new BorderRadius.circular(25.0),
-            ),
-          ),
-          validator: (val) {
-            if (val.length == 0) {
-              return "Username cannot be empty";
-            } else {
-              return null;
-            }
-          },
-          keyboardType: TextInputType.text,
-          style: new TextStyle(
-            fontFamily: "Poppins",
-          ),
-        ),
-        new Padding(padding: const EdgeInsets.only(top: 15)),
-        new TextFormField(
-          /* ADD FORGOT PASSWORD AND KEEP ME LOGIN*/
-          obscureText: true,
-          decoration: new InputDecoration(
-            prefixIcon: new Icon(Icons.vpn_key),
-            contentPadding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            //inside padding
-            labelText: "Enter Password",
-            fillColor: Colors.white,
-            border: new OutlineInputBorder(
-              borderRadius: new BorderRadius.circular(25.0),
-            ),
-            //fillColor: Colors.green
-          ),
-          validator: (val) {
-            if (val.length == 0) {
-              return "Password cannot be empty";
-            } else {
-              return null;
-            }
-          },
-          keyboardType: TextInputType.visiblePassword,
-          style: new TextStyle(
-            fontFamily: "Poppins",
-          ),
-        ),
-        new Padding(padding: const EdgeInsets.only(top: 10)),
-      ]));
-
-  Widget loginBtn = Container(
-      alignment: Alignment.center,
-      child: new Builder(builder: (BuildContext context) {
-        return SizedBox(
-            width: 200.0,
-            height: 40.0,
-            child: OutlinedButton(
-              child: Text("Login"),
-              style: OutlinedButton.styleFrom(
-                  primary: Colors.black,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0))),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, Routes.mainHolder);
-              },
-            ));
-      }));
 
   Widget rememberAndForget = Container(
       padding: const EdgeInsets.only(right: 15), //kinda hacky
@@ -198,8 +139,8 @@ class _Login extends State<Login> {
   //main function
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent)); //transparent statusbar
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return MaterialApp(
         theme: new ThemeData(
           primaryColor: Colors.black,
@@ -215,9 +156,77 @@ class _Login extends State<Login> {
               children: [
                 signUp,
                 titleSection,
-                textBoxes,
+                Container(
+                    padding: const EdgeInsets.fromLTRB(25, 20, 25, 0),
+                    child: Column(children: [
+                      new TextFormField(
+                        controller: username,
+                        decoration: new InputDecoration(
+                          prefixIcon: new Icon(Icons.account_circle),
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          //inside padding
+                          labelText: "Enter Username",
+                          errorText: _validateUser == false ? 'Username cannot be empty' : null,
+                          fillColor: Colors.white,
+                          border: new OutlineInputBorder(
+                            borderRadius: new BorderRadius.circular(25.0),
+                          ),
+                        ),
+                        keyboardType: TextInputType.text,
+                        style: new TextStyle(
+                          fontFamily: "Poppins",
+                        ),
+                      ),
+                      new Padding(padding: const EdgeInsets.only(top: 15)),
+                      new TextFormField(
+                        /* ADD FORGOT PASSWORD AND KEEP ME LOGIN*/
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          prefixIcon: new Icon(Icons.vpn_key),
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          //inside padding
+                          labelText: "Enter Password",
+                          errorText: _validatePass == false ? 'Password cannot be empty' : null,
+                          fillColor: Colors.white,
+                          border: new OutlineInputBorder(
+                            borderRadius: new BorderRadius.circular(25.0),
+                          ),
+                        ),
+                        controller: password,
+                        keyboardType: TextInputType.visiblePassword,
+                        style: new TextStyle(
+                          fontFamily: "Poppins",
+                        ),
+                      ),
+                      new Padding(padding: const EdgeInsets.only(top: 10)),
+                    ])),
                 rememberAndForget,
-                loginBtn,
+                Container(
+                    alignment: Alignment.center,
+                    child: new Builder(builder: (BuildContext context) {
+                      return SizedBox(
+                          width: 200.0,
+                          height: 40.0,
+                          child: OutlinedButton(
+                            child: Text("Login"),
+                            style: OutlinedButton.styleFrom(
+                                primary: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0))),
+                            onPressed: () async {
+                              setState(() {
+                                username.text.isEmpty ? _validateUser = false : _validateUser = true;
+                                password.text.isEmpty ? _validatePass = false : _validatePass = true;
+                              });
+                              if(_validateUser == true && _validatePass == true){
+                                Navigator.pushReplacementNamed(context, Routes.mainHolder);
+                              }
+                            },
+                          ));
+                    })),
               ],
             ),
           ),
